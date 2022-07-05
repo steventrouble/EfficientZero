@@ -6,3 +6,4 @@ cython==0.29.23
 tensorboard
 opencv-python
 kornia
+scipy
