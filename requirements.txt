@@ -1,5 +1,5 @@
-numpy==1.19.5
-ray==1.0.0
+numpy
+ray
 gym[atari,accept-rom-license]
 ale-py
 cython==0.29.23
