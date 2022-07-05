@@ -13,6 +13,16 @@ cd core/ctree
 bash make.sh
 ```
 
+If you're using a brand new graphics card, you'll need to install the latest version of pytorch.
+Visit [PyTorch.org: Get started](https://pytorch.org/get-started/locally/) and choose the latest cuda version,
+and install it with pip or pipenv. You may need to reinstall pytorch if you've already installed an older version.
+
+E.g. The PyTorch website recommended I run this for my RTX 3080 laptop (Jul 2022).
+
+```
+pipenv install --index https://download.pytorch.org/whl/cu116 "torch==1.12.0+cu116" "torchvision==0.13.0+cu116" "torchaudio==0.12.0+cu116"
+```
+
 ### Installation
 To install the (non-driver) dependencies for this, I recommend using pipenv:
 
@@ -23,13 +33,13 @@ pipenv install -r requirements.txt
 
 ## Usage
 ### Quick start
-* Train: `python main.py --env BreakoutNoFrameskip-v4 --case atari --opr train --amp_type torch_amp --num_gpus 1 --num_cpus 10 --cpu_actor 1 --gpu_actor 1 --force`
-* Test: `python main.py --env BreakoutNoFrameskip-v4 --case atari --opr test --amp_type torch_amp --num_gpus 1 --load_model --model_path model.p \`
+* Train: `pipenv run python main.py --env ALE/Breakout-v5 --case atari --opr train --amp_type torch_amp --num_gpus 1 --num_cpus 10 --cpu_actor 1 --gpu_actor 1 --force`
+* Test: `pipenv run python main.py --env ALE/Breakout-v5 --case atari --opr test --amp_type torch_amp --num_gpus 1 --load_model --model_path model.p \`
 ### Bash file
 We provide `train.sh` and `test.sh` for training and evaluation.
 * Train: 
   * With 4 GPUs (3090): `bash train.sh`
-* Test: `bash test.sh`
+* Test: `pipenv run bash test.sh`
 
 |Required Arguments | Description|
 |:-------------|:-------------|
