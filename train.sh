@@ -9,4 +9,4 @@ python main.py --env 'ALE/Breakout-v5' --case atari --opr train --force \
   --use_max_priority \
   --amp_type 'torch_amp' \
   --info 'EfficientZero-V1' \
-  --object_store_mem=8000000000
+  --object_store_mem=1000000000
