@@ -11,11 +11,15 @@ Before starting training, you need to build the c++/cython style external packag
 ```
 cd core/ctree
 bash make.sh
-``` 
-The distributed framework of this codebase is built on [ray](https://docs.ray.io/en/releases-1.0.0/auto_examples/overview.html).
+```
 
 ### Installation
-As for other packages required for this codebase, please run `pip install -r requirements.txt`.
+To install the (non-driver) dependencies for this, I recommend using pipenv:
+
+```
+pipenv --three
+pipenv install -r requirements.txt
+```
 
 ## Usage
 ### Quick start
