@@ -188,7 +188,7 @@ class BatchWorker_CPU(object):
             _mask = [1. for i in range(len(_actions))]
             _mask += [0. for _ in range(self.config.num_unroll_steps - len(_mask))]
 
-            _actions += [np.random.integers(0, game.action_space_size) for _ in range(self.config.num_unroll_steps - len(_actions))]
+            _actions += [np.random.randint(0, game.action_space_size) for _ in range(self.config.num_unroll_steps - len(_actions))]
 
             # obtain the input observations
             obs_lst.append(game_lst[i].obs(game_pos_lst[i], extra_len=self.config.num_unroll_steps, padding=True))
@@ -258,12 +258,12 @@ class BatchWorker_CPU(object):
                 # Observation will be deleted if replay buffer is full. (They are stored in the ray object store)
                 try:
                     self.make_batch(batch_context, self.config.revisit_policy_search_rate, weights=target_weights)
-                except:
-                    print('Data is deleted...')
+                except Exception as e:
+                    print('Data is deleted...', e)
                     time.sleep(0.1)
 
 
-@ray.remote(num_gpus=0.125)
+@ray.remote(num_gpus=0.25)
 class BatchWorker_GPU(object):
     def __init__(self, worker_id, replay_buffer, storage, batch_storage, mcts_storage, config):
         """GPU Batch Worker for reanalyzing targets, see Appendix.
