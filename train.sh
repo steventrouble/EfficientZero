@@ -3,7 +3,7 @@ export CUDA_DEVICE_ORDER='PCI_BUS_ID'
 export CUDA_VISIBLE_DEVICES=0
 
 python main.py --env 'ALE/Breakout-v5' --case atari --opr train --force \
-  --num_gpus 1 --num_cpus 4 --cpu_actor 14 --gpu_actor 20 \
+  --num_gpus 1 --num_cpus 4 --cpu_actor 4 --gpu_actor 1 \
   --seed 0 \
   --use_priority \
   --use_max_priority \
