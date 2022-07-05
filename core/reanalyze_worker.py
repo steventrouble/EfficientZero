@@ -188,7 +188,7 @@ class BatchWorker_CPU(object):
             _mask = [1. for i in range(len(_actions))]
             _mask += [0. for _ in range(self.config.num_unroll_steps - len(_mask))]
 
-            _actions += [np.random.randint(0, game.action_space_size) for _ in range(self.config.num_unroll_steps - len(_actions))]
+            _actions += [np.random.integers(0, game.action_space_size) for _ in range(self.config.num_unroll_steps - len(_actions))]
 
             # obtain the input observations
             obs_lst.append(game_lst[i].obs(game_pos_lst[i], extra_len=self.config.num_unroll_steps, padding=True))
