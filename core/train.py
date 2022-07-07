@@ -358,8 +358,13 @@ def _train(model, target_model, replay_buffer, shared_storage, batch_storage, co
         config.set_transforms()
 
     # wait until collecting enough data to start
+    batch_wait_count = 0
     while not (ray.get(replay_buffer.get_total_len.remote()) >= config.start_transitions):
+        buffer_size = ray.get(replay_buffer.get_total_len.remote())
+        if batch_wait_count % 30 == 0:
+            print(f"Waiting for buffer to fill. Currently {buffer_size} / {config.start_transitions} ")
         time.sleep(1)
+        batch_wait_count += 1
         pass
     print('Begin training...')
     # set signals for other workers
