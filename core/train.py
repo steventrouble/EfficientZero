@@ -65,7 +65,7 @@ def update_weights(model, batch, optimizer, replay_buffer, config, scaler, vis_r
     # obs_batch is the observation for hat s_t (predicted hidden states from dynamics function)
     # obs_target_batch is the observations for s_t (hidden states from representation function)
     # to save GPU memory usage, obs_batch_ori contains (stack + unroll steps) frames
-    obs_batch_ori = torch.from_numpy(obs_batch_ori).to(config.device).float() / 255.0
+    obs_batch_ori = torch.tensor(obs_batch_ori, dtype=torch.float, device=config.device) / 255.0
     obs_batch = obs_batch_ori[:, 0: config.stacked_observations * config.image_channel, :, :]
     obs_target_batch = obs_batch_ori[:, config.image_channel:, :, :]
 
@@ -75,12 +75,12 @@ def update_weights(model, batch, optimizer, replay_buffer, config, scaler, vis_r
         obs_target_batch = config.transform(obs_target_batch)
 
     # use GPU tensor
-    action_batch = torch.from_numpy(action_batch).to(config.device).unsqueeze(-1).long()
-    mask_batch = torch.from_numpy(mask_batch).to(config.device).float()
-    target_value_prefix = torch.from_numpy(target_value_prefix).to(config.device).float()
-    target_value = torch.from_numpy(target_value).to(config.device).float()
-    target_policy = torch.from_numpy(target_policy).to(config.device).float()
-    weights = torch.from_numpy(weights_lst).to(config.device).float()
+    action_batch = torch.tensor(action_batch, dtype=torch.long, device=config.device).unsqueeze(-1)
+    mask_batch = torch.tensor(mask_batch, dtype=torch.float, device=config.device)
+    target_value_prefix = torch.tensor(target_value_prefix, dtype=torch.float, device=config.device)
+    target_value = torch.tensor(target_value, dtype=torch.float, device=config.device)
+    target_policy = torch.tensor(target_policy, dtype=torch.float, device=config.device)
+    weights = torch.tensor(weights_lst, dtype=torch.float, device=config.device)
 
     batch_size = obs_batch.size(0)
     assert batch_size == config.batch_size == target_value_prefix.size(0)
