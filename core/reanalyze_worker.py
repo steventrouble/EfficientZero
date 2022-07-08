@@ -1,6 +1,7 @@
 import ray
 import time
 import torch
+import traceback
 
 import numpy as np
 import core.ctree.cytree as cytree
@@ -69,7 +70,7 @@ class BatchWorker_CPU(object):
             # off-policy correction: shorter horizon of td steps
             delta_td = (total_transitions - idx) // config.auto_td_steps
             td_steps = config.td_steps - delta_td
-            td_steps = np.clip(td_steps, 1, 5).astype(np.int)
+            td_steps = np.clip(td_steps, 1, 5).astype(np.int32)
 
             # prepare the corresponding observations for bootstrapped values o_{t+k}
             game_obs = game.obs(state_index + td_steps, config.num_unroll_steps)
@@ -509,4 +510,4 @@ class BatchWorker_GPU(object):
                 time.sleep(30)
                 break
 
-            self._prepare_target_gpu()
+                self._prepare_target_gpu()
