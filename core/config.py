@@ -333,7 +333,7 @@ class BaseConfig(object):
         value = (value_support * value_probs).sum(1, keepdim=True) / delta
 
         epsilon = 0.001
-        sign = torch.ones(value.shape).float().to(value.device)
+        sign = torch.ones(value.shape, dtype=torch.float, device=value.device)
         sign[value < 0] = -1.0
         output = (((torch.sqrt(1 + 4 * epsilon * (torch.abs(value) + 1 + epsilon)) - 1) / (2 * epsilon)) ** 2 - 1)
         output = sign * output * delta
