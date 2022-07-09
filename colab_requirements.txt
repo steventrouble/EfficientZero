@@ -1,9 +1,0 @@
-numpy
-ray
-gym
-atari-py
-cython
-tensorboard
-opencv-python
-kornia
-scipy
