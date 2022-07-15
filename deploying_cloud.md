@@ -16,7 +16,6 @@ sudo apt install python-is-python3 python3-dev
 ```
 git clone https://github.com/steventrouble/EfficientZeroLocal.git
 cd EfficientZeroLocal
-git checkout new_branch
 pip install -r requirements.txt
 
 cd core/ctree
