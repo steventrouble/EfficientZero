@@ -16,6 +16,9 @@ class DiscreteSupport(object):
         self.size = len(self.range)
         self.delta = delta
 
+    def range_tensor(self, device='cpu'):
+        return torch.arange(self.min, self.max + 1, self.delta, device=device)
+
 
 class BaseConfig(object):
 
@@ -318,19 +321,19 @@ class BaseConfig(object):
     def inverse_value_transform(self, value_logits):
         return self.inverse_scalar_transform(value_logits, self.value_support)
 
-    def inverse_scalar_transform(self, logits, scalar_support):
+    def inverse_scalar_transform(self, logits, scalar_support: DiscreteSupport):
         """ Reference from MuZerp: Appendix F => Network Architecture
         & Appendix A : Proposition A.2 in https://arxiv.org/pdf/1805.11593.pdf (Page-11)
         """
         delta = self.value_support.delta
         value_probs = torch.softmax(logits, dim=1)
-        value_support = torch.ones(value_probs.shape)
-        value_support[:, :] = torch.from_numpy(np.array([x for x in scalar_support.range]))
-        value_support = value_support.to(device=value_probs.device)
+        value_support = scalar_support.range_tensor(device=value_probs.device)
+        value_support = value_support.view(1, value_probs.shape[1]).expand(value_probs.shape[0], -1)
+        value_support.shape
         value = (value_support * value_probs).sum(1, keepdim=True) / delta
 
         epsilon = 0.001
-        sign = torch.ones(value.shape).float().to(value.device)
+        sign = torch.ones(value.shape, dtype=torch.float, device=value.device)
         sign[value < 0] = -1.0
         output = (((torch.sqrt(1 + 4 * epsilon * (torch.abs(value) + 1 + epsilon)) - 1) / (2 * epsilon)) ** 2 - 1)
         output = sign * output * delta

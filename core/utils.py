@@ -72,7 +72,7 @@ class NoopResetEnv(gym.Wrapper):
         if self.override_num_noops is not None:
             noops = self.override_num_noops
         else:
-            noops = self.unwrapped.np_random.randint(1, self.noop_max + 1) #pylint: disable=E1101
+            noops = self.unwrapped.np_random.integers(1, self.noop_max + 1) #pylint: disable=E1101
         assert noops > 0
         obs = None
         for _ in range(noops):
@@ -228,8 +228,7 @@ def make_atari(env_id, skip=4, max_episode_steps=None):
     max_episode_steps: int
         max moves for an episode
     """
-    env = gym.make(env_id)
-    assert 'NoFrameskip' in env.spec.id
+    env = gym.make(env_id, frameskip=1)
     env = NoopResetEnv(env, noop_max=30)
     env = MaxAndSkipEnv(env, skip=skip)
     if max_episode_steps is not None:
