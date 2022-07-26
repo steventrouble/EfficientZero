@@ -510,4 +510,4 @@ class BatchWorker_GPU(object):
                 time.sleep(30)
                 break
 
-                self._prepare_target_gpu()
+            self._prepare_target_gpu()
