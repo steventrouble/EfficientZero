@@ -1,10 +1,10 @@
 # Deploying on Cloud
 
-I'm using Paperspace to deploy this.
+I usedambdalabs to deploy this.
 
 ## Set up the machine
 
-Create new Paperspace ML-in-a-box machine. Then run:
+Create a new machine. Then run:
 
 ```
 sudo apt update
