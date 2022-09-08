@@ -23,7 +23,7 @@ bash make.sh
 cd -
 ```
 
-You'll need to tweak the flags (e.g. num_cpus, cpu_actors) in order to take make full use of your system. You can use `ray status` after starting up the script to verify no actors ran out of resources.
+You'll need to tweak the flags (e.g. num_cpus, cpu_actors) in order to make full use of your system. You can use `ray status` after starting up the script to verify no actors ran out of resources.
 
 ## Run it
 
