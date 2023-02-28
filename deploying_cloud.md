@@ -1,6 +1,6 @@
 # Deploying on Cloud
 
-I usedambdalabs to deploy this.
+I use LambdaLabs to deploy this.
 
 ## Set up the machine
 
