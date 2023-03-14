@@ -460,7 +460,9 @@ def train(config, summary_writer, model_path=None):
     # reanalyze workers
     cpu_workers = [BatchWorker_CPU.remote(idx, replay_buffer, storage, batch_storage, mcts_storage, config) for idx in range(config.cpu_actor)]
     workers += [cpu_worker.run.remote() for cpu_worker in cpu_workers]
-    gpu_workers = [BatchWorker_GPU.remote(idx, replay_buffer, storage, batch_storage, mcts_storage, config) for idx in range(config.gpu_actor)]
+
+    GpuWorker = BatchWorker_GPU.options(num_gpus=(2.0 / config.gpu_mem))
+    gpu_workers = [GpuWorker.remote(idx, replay_buffer, storage, batch_storage, mcts_storage, config) for idx in range(config.gpu_actor)]
     workers += [gpu_worker.run.remote() for gpu_worker in gpu_workers]
 
     # self-play workers

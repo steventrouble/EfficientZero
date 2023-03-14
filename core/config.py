@@ -386,6 +386,7 @@ class BaseConfig(object):
         self.device = args.device
         self.cpu_actor = args.cpu_actor
         self.gpu_actor = args.gpu_actor
+        self.gpu_mem = args.gpu_mem
         self.p_mcts_num = args.p_mcts_num
         self.use_root_value = args.use_root_value
 
