@@ -132,6 +132,7 @@ class DataWorker(object):
                 trained_steps = ray.get(self.storage.get_counter.remote())
                 # training finished
                 if trained_steps >= self.config.training_steps + self.config.last_steps:
+                    print("Training finished. Sleeping.")
                     time.sleep(30)
                     break
 
