@@ -12,7 +12,7 @@ from core.model import concat_output, concat_output_value
 from core.utils import prepare_observation_lst, LinearSchedule
 
 
-@ray.remote(max_restarts=10)
+@ray.remote(num_cpus=1, max_restarts=10)
 class BatchWorker_CPU(object):
     def __init__(self, worker_id, replay_buffer, storage, batch_storage, mcts_storage, config):
         """CPU Batch Worker for reanalyzing targets, see Appendix.
