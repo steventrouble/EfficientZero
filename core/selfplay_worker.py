@@ -103,6 +103,12 @@ class DataWorker(object):
         return priorities
 
     def run(self):
+        try:
+            self._run()
+        except Exception:
+            traceback.print_exc()
+
+    def _run(self):
         # number of parallel mcts
         env_nums = self.config.p_mcts_num
         model = self.config.get_uniform_network()
@@ -162,6 +168,8 @@ class DataWorker(object):
                 self_play_visit_entropy = []
                 other_dist = {}
 
+                print("Beginning self play")
+
                 # play games until max moves
                 while not dones.all() and (step_counter <= self.config.max_moves):
                     try:
@@ -172,11 +180,12 @@ class DataWorker(object):
                         trained_steps = ray.get(self.storage.get_counter.remote())
                         if trained_steps >= self.config.training_steps + self.config.last_steps:
                             # training is finished
+                            print("Training finished. Sleeping.")
                             time.sleep(30)
                             return
                         if start_training and (total_transitions / max_transitions) > (trained_steps / self.config.training_steps):
                             # self-play is faster than training speed or finished
-                            time.sleep(1)
+                            time.sleep(2)
                             continue
 
                         # set temperature for distributions
