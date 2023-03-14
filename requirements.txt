@@ -1,6 +1,6 @@
-numpy
+numpy==1.23.5
 ray
-gym[atari,accept-rom-license]
+gym[atari,accept-rom-license]==0.23.1
 ale-py
 cython==0.29.23
 tensorboard
