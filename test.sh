@@ -6,5 +6,5 @@ python main.py --env 'ALE/Breakout-v5' --case atari --opr test --seed 0 --num_gp
   --test_episodes 32 \
   --load_model \
   --amp_type 'torch_amp' \
-  --model_path 'model.p' \
+  --model_path 'results/atari/EfficientZero-V1/ALE/Breakout-v5/seed=0/model.p' \
   --info 'Test'
