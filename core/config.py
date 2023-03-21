@@ -440,6 +440,7 @@ class BaseConfig(object):
         files = os.listdir(self.model_dir)
         if len(files) == 0:
             print("Could not find models in path", self.model_dir, "Not resuming.")
+            return
 
         files.sort()
         self.model_path = os.path.join(self.model_dir, files[-1])
