@@ -10,10 +10,10 @@ TASK_NAME="${1:-Asterix}"
 #     to `ray satus`
 #  2. Increase CPU actors until CPU full.
 GPU_ACTORS=140
-CPU_ACTORS=40
+CPU_ACTORS=70
 
 #py-spy top --subprocesses -- \
-python3.8 main.py --env 'ALE/Breakout-v5' --case atari --opr train \
+python3.8 main.py --env "ALE/${TASK_NAME}-v5" --case atari --opr train \
   --num_gpus "$NUM_GPUS" --num_cpus "$NUM_CPUS" --gpu_mem 40 \
   --cpu_actor $CPU_ACTORS --gpu_actor $GPU_ACTORS \
   --seed 0 \
