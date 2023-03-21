@@ -249,7 +249,7 @@ def make_results_dir(exp_path, args):
     # make the result directory
     os.makedirs(exp_path, exist_ok=True)
     if args.opr == 'train' and os.path.exists(exp_path) and os.listdir(exp_path):
-        if not args.force:
+        if not args.force and not args.auto_resume:
             raise FileExistsError('{} is not empty. Please use --force to overwrite it'.format(exp_path))
         else:
             print('Warning, path exists! Rewriting...')

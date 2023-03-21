@@ -1,6 +1,7 @@
 import os
 import time
 import torch
+import re
 
 import numpy as np
 
@@ -234,6 +235,7 @@ class BaseConfig(object):
         # Training
         self.training_steps = training_steps
         self.last_steps = last_steps
+        self.checkpoint_step = 0 # num steps completed by last checkpoint
         self.checkpoint_interval = checkpoint_interval
         self.target_model_interval = target_model_interval
         self.save_ckpt_interval = save_ckpt_interval
@@ -387,6 +389,7 @@ class BaseConfig(object):
         self.cpu_actor = args.cpu_actor
         self.gpu_actor = args.gpu_actor
         self.gpu_mem = args.gpu_mem
+        self.auto_resume = args.auto_resume
         self.p_mcts_num = args.p_mcts_num
         self.use_root_value = args.use_root_value
 
@@ -419,8 +422,27 @@ class BaseConfig(object):
 
         localtime = time.asctime(time.localtime(time.time()))
         seed_tag = 'seed={}'.format(self.seed)
-        self.exp_path = os.path.join(args.result_dir, args.case, args.info, args.env, seed_tag, localtime)
+        self.exp_path = os.path.join(args.result_dir, args.case, args.info, args.env, seed_tag)
 
         self.model_path = os.path.join(self.exp_path, 'model.p')
         self.model_dir = os.path.join(self.exp_path, 'model')
+
+        if self.auto_resume:
+            self.try_resume()
+
         return self.exp_path
+
+    def try_resume(self):
+        if not os.path.exists(self.model_dir):
+            print("Could not find model path", self.model_dir, "Not resuming.")
+            return
+
+        files = os.listdir(self.model_dir)
+        if len(files) == 0:
+            print("Could not find models in path", self.model_dir, "Not resuming.")
+
+        files.sort()
+        self.model_path = os.path.join(self.model_dir, files[-1])
+        self.checkpoint_step = int(re.findall(r'\d+', files[-1])[0])
+        print("Resuming from model", self.model_path, "step", self.checkpoint_step)
+        return

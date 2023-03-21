@@ -1,7 +1,8 @@
 #!/bin/bash
 set -ex
 NUM_GPUS="${SLURM_GPUS_ON_NODE:-1}"
-NUM_CPUS="${SLURM_CPUS_ON_NODE:-8}"
+NUM_CPUS="$((${SLURM_CPUS_ON_NODE:-8} * 2))"
+TASK_NAME="${1:-Asterix}"
 
 # To set these values, start the program following these instructions:
 #
@@ -12,7 +13,7 @@ GPU_ACTORS=140
 CPU_ACTORS=40
 
 #py-spy top --subprocesses -- \
-python3.8 main.py --env 'ALE/Breakout-v5' --case atari --opr train --force \
+python3.8 main.py --env 'ALE/Breakout-v5' --case atari --opr train \
   --num_gpus "$NUM_GPUS" --num_cpus "$NUM_CPUS" --gpu_mem 40 \
   --cpu_actor $CPU_ACTORS --gpu_actor $GPU_ACTORS \
   --seed 0 \
@@ -20,4 +21,5 @@ python3.8 main.py --env 'ALE/Breakout-v5' --case atari --opr train --force \
   --use_max_priority \
   --amp_type 'torch_amp' \
   --info 'EfficientZero-V1' \
+  --auto_resume \
   --object_store_mem=1000000000

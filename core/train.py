@@ -370,7 +370,7 @@ def _train(model, target_model, replay_buffer, shared_storage, batch_storage, co
     # set signals for other workers
     shared_storage.set_start_signal.remote()
 
-    step_count = 0
+    step_count = config.checkpoint_step
     # Note: the interval of the current model and the target model is between x and 2x. (x = target_model_interval)
     # recent_weights is the param of the target model
     recent_weights = model.get_weights()

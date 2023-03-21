@@ -21,14 +21,14 @@ if __name__ == '__main__':
     parser.add_argument('--opr', required=True, choices=['train', 'test'])
     parser.add_argument('--amp_type', required=True, choices=['torch_amp', 'none'],
                         help='choose automated mixed precision type')
-    parser.add_argument('--no_cuda', action='store_true', default=False, help='no cuda usage (default: %(default)s)')
-    parser.add_argument('--debug', action='store_true', default=False,
+    parser.add_argument('--no_cuda', action='store_true', help='no cuda usage (default: %(default)s)')
+    parser.add_argument('--debug', action='store_true',
                         help='If enabled, logs additional values  '
                              '(gradients, target value, reward distribution, etc.) (default: %(default)s)')
-    parser.add_argument('--render', action='store_true', default=False,
+    parser.add_argument('--render', action='store_true',
                         help='Renders the environment (default: %(default)s)')
-    parser.add_argument('--save_video', action='store_true', default=False, help='save video in test.')
-    parser.add_argument('--force', action='store_true', default=False,
+    parser.add_argument('--save_video', action='store_true', help='save video in test.')
+    parser.add_argument('--force', action='store_true',
                         help='Overrides past results (default: %(default)s)')
     parser.add_argument('--cpu_actor', type=int, default=14, help='batch cpu actor')
     parser.add_argument('--gpu_actor', type=int, default=20, help='batch bpu actor')
@@ -39,19 +39,20 @@ if __name__ == '__main__':
     parser.add_argument('--gpu_mem', type=int, default=20, help='mem available per gpu')
     parser.add_argument('--revisit_policy_search_rate', type=float, default=0.99,
                         help='Rate at which target policy is re-estimated (default: %(default)s)')
-    parser.add_argument('--use_root_value', action='store_true', default=False,
+    parser.add_argument('--use_root_value', action='store_true',
                         help='choose to use root value in reanalyzing')
-    parser.add_argument('--use_priority', action='store_true', default=False,
+    parser.add_argument('--use_priority', action='store_true',
                         help='Uses priority for data sampling in replay buffer. '
                              'Also, priority for new data is calculated based on loss (default: False)')
-    parser.add_argument('--use_max_priority', action='store_true', default=False, help='max priority')
+    parser.add_argument('--use_max_priority', action='store_true', help='max priority')
     parser.add_argument('--test_episodes', type=int, default=10, help='Evaluation episode count (default: %(default)s)')
     parser.add_argument('--use_augmentation', action='store_true', default=True, help='use augmentation')
     parser.add_argument('--augmentation', type=str, default=['shift', 'intensity'], nargs='+',
                         choices=['none', 'rrc', 'affine', 'crop', 'blur', 'shift', 'intensity'],
                         help='Style of augmentation')
     parser.add_argument('--info', type=str, default='none', help='debug string')
-    parser.add_argument('--load_model', action='store_true', default=False, help='choose to load model')
+    parser.add_argument('--auto_resume', action='store_true', help='pick up where training left off')
+    parser.add_argument('--load_model', action='store_true', help='choose to load model')
     parser.add_argument('--model_path', type=str, default='./results/test_model.p', help='load model path')
     parser.add_argument('--object_store_memory', type=int, default=150 * 1024 * 1024 * 1024, help='object store memory')
 
