@@ -2,6 +2,7 @@ import os
 import time
 import torch
 import re
+import sys
 
 import numpy as np
 
@@ -442,8 +443,19 @@ class BaseConfig(object):
             print("Could not find models in path", self.model_dir, "Not resuming.")
             return
 
-        files.sort()
-        self.model_path = os.path.join(self.model_dir, files[-1])
-        self.checkpoint_step = int(re.findall(r'\d+', files[-1])[0])
+        # Filter to only models
+        files = [x for x in files if re.match(r'model_\d+\.p', x)]
+
+        # Sort by checkpoint number
+        checkpoints = [int(re.search(r'\d+', x).group()) for x in files]
+        checkpoints, files = zip(*sorted(zip(checkpoints, files), reverse=True))
+
+        self.model_path = os.path.join(self.model_dir, files[0])
+        self.checkpoint_step = checkpoints[0]
+
+        if self.checkpoint_step >= self.training_steps + self.last_steps:
+            print("Model is fully trained already, exiting.")
+            sys.exit(0)
+
         print("Resuming from model", self.model_path, "step", self.checkpoint_step)
         return
