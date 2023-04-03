@@ -425,7 +425,7 @@ class BaseConfig(object):
         seed_tag = 'seed={}'.format(self.seed)
         self.exp_path = os.path.join(args.result_dir, args.case, args.info, args.env, seed_tag)
 
-        self.model_path = os.path.join(self.exp_path, 'model.p')
+        self.model_path = args.model_path or os.path.join(self.exp_path, 'model.p')
         self.model_dir = os.path.join(self.exp_path, 'model')
 
         if self.auto_resume:
