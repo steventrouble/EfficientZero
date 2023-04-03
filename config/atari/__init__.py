@@ -18,7 +18,7 @@ class AtariConfig(BaseConfig):
             test_episodes=32,
             checkpoint_interval=100,
             target_model_interval=200,
-            save_ckpt_interval=10000,
+            save_ckpt_interval=2000,
             max_moves=108000,
             test_max_moves=12000,
             history_length=400,
