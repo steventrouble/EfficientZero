@@ -30,6 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_video', action='store_true', help='save video in test.')
     parser.add_argument('--force', action='store_true',
                         help='Overrides past results (default: %(default)s)')
+    parser.add_argument('--ray_address', type=str, default='auto', help='address of ray cluster, if not local')
     parser.add_argument('--cpu_actor', type=int, default=14, help='batch cpu actor')
     parser.add_argument('--gpu_actor', type=int, default=20, help='batch bpu actor')
     parser.add_argument('--p_mcts_num', type=int, default=4, help='number of parallel mcts')
@@ -63,7 +64,10 @@ if __name__ == '__main__':
         ' Revisit policy search rate should be in [0,1]'
 
     if args.opr == 'train':
-        ray.init(num_gpus=args.num_gpus, num_cpus=args.num_cpus)
+        if args.ray_address != 'auto':
+            ray.init(address=args.ray_address)
+        else:
+            ray.init(num_gpus=args.num_gpus, num_cpus=args.num_cpus)
     else:
         ray.init()
 
