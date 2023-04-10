@@ -2,6 +2,7 @@ import os
 import ray
 import time
 import torch
+import pathlib
 
 import numpy as np
 import torch.optim as optim
@@ -422,6 +423,8 @@ def _train(model, target_model, replay_buffer, shared_storage, batch_storage, co
         if step_count % config.save_ckpt_interval == 0:
             model_path = os.path.join(config.model_dir, 'model_{}.p'.format(step_count))
             torch.save(model.state_dict(), model_path)
+            buffer_path = os.path.join(config.model_dir, 'buffer_latest'.format(step_count))
+            replay_buffer.save_state.remote(pathlib.Path(buffer_path))
 
     shared_storage.set_weights.remote(model.get_weights())
     time.sleep(30)
@@ -453,6 +456,12 @@ def train(config, summary_writer, model_path=None):
     batch_storage = QueueStorage(15, 20)
     mcts_storage = QueueStorage(18, 25)
     replay_buffer = ReplayBuffer.remote(config=config)
+
+    if config.checkpoint_step > 0 and model_path:
+        folder_path = pathlib.Path(model_path).parent
+        buffer_path = folder_path / 'buffer_latest'.format(config.checkpoint_step)
+        print('resume buffer from path: ', buffer_path)
+        replay_buffer.load_state.remote(buffer_path)
 
     # other workers
     workers = []

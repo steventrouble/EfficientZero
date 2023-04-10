@@ -59,6 +59,15 @@ class GameHistory:
         self.obs_history = []
         self.rewards = []
 
+    def __getstate__(self):
+        out = self.__dict__.copy()
+        out["obs_history"] = ray.get(out["obs_history"])
+        return out
+
+    def __setstate__(self, d):
+        d["obs_history"] = ray.put(d["obs_history"])
+        self.__dict__ = d
+
     def init(self, init_observations):
         """Initialize a history block, stack the previous stacked_observations frames.
         Parameters
