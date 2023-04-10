@@ -436,11 +436,13 @@ class BaseConfig(object):
     def try_resume(self):
         if not os.path.exists(self.model_dir):
             print("Could not find model path", self.model_dir, "Not resuming.")
+            self.auto_resume = False
             return
 
         files = os.listdir(self.model_dir)
         if len(files) == 0:
             print("Could not find models in path", self.model_dir, "Not resuming.")
+            self.auto_resume = False
             return
 
         # Filter to only models
