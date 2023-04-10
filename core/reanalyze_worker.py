@@ -229,6 +229,12 @@ class BatchWorker_CPU(object):
         self.mcts_storage.push(countext)
 
     def run(self):
+        try:
+            self._run()
+        except Exception as exc:
+            traceback.print_exc()
+
+    def _run(self):
         # start making mcts contexts to feed the GPU batch maker
         start = False
         while True:
@@ -498,6 +504,12 @@ class BatchWorker_GPU(object):
             self.batch_storage.push([inputs_batch, targets_batch])
 
     def run(self):
+        try:
+            self._run()
+        except Exception as exc:
+            traceback.print_exc()
+
+    def _run(self):
         start = False
         while True:
             # waiting for start signal

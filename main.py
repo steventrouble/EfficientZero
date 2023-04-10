@@ -93,7 +93,7 @@ if __name__ == '__main__':
     try:
         if args.opr == 'train':
             summary_writer = SummaryWriter(exp_path, flush_secs=10)
-            should_load = args.load_model or args.auto_resume
+            should_load = args.load_model or game_config.auto_resume
             if should_load and os.path.exists(game_config.model_path):
                 model_path = game_config.model_path
             else:

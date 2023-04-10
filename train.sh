@@ -25,7 +25,7 @@ CPU_ACTORS=15
 
 ray start --head --port=${RAY_PORT} --ray-client-server-port=${RAY_CS_PORT} --min-worker-port=${RAY_MIN_WORKER} --max-worker-port=${RAY_MAX_WORKER} --include-dashboard=false --num-gpus=1 --num-cpus=24
 
-#py-spy top --subprocesses -- \
+#py-spy top --subprocesses -r 10 -- \
 python3.8 main.py --env "ALE/${TASK_NAME}-v5" --case atari --opr train \
   --num_gpus "$NUM_GPUS" --num_cpus "$NUM_CPUS" --gpu_mem 80 \
   --cpu_actor $CPU_ACTORS --gpu_actor $GPU_ACTORS \
