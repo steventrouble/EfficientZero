@@ -1,28 +1,25 @@
 # EfficientZero Remastered
-This repo hosts the official remastered version of EfficientZero.
+Welcome to the official GitHub repository for the remastered version of EfficientZero, an advanced Reinforcement Learning model designed for real-world applications. EfficientZero Remastered is a production-ready release that builds upon the original research model, offering enhanced performance and stability for use cases such as game AI, meta learning, optimization, large language models (LLMs), generative models, and more.
 
-This is the productionized version of the EfficientZero model. Unlike the research version, this model is intended to be used in real-world applications including: Game AI, meta learning, optimization, LLMs, generative models, and more.
+## What's New in EfficientZero Remastered:
+### Enhanced Features:
+* A100 GPU Training Compatibility
+* Comprehensive Preemption Recovery
+* Replay Buffer Checkpointing System
+* Updated Dependencies for Improved Stability
 
-__New Features:__
+### Resolved Issues:
+* Streamlined CPU to GPU Memory Allocation
+* Addressed Crashes on Latest Video Cards
+* Automatic Batch Worker Restart after Failures
+* Refined Error-Handling and Messaging
 
-*  A100 training support
-*  Full preemption recovery
-*  Replay buffer checkpointing
-*  Up-to-date dependencies
+### Coming Soon:
+* Access to Pre-Trained Models
+* Guidelines for Integrating New Gym Environments
+* Dedicated FAQ and Forum for Production Users
 
-__Bug fixes:__
-*  Fixed GPU <-> CPU memory allocations
-*  Fixed several crashes on latest video cards
-*  Batch workers auto-restart after certain failures
-*  Improved error-handling and messages
-
-__Upcoming features:__
-*  Pre-trained models available soon!
-*  Instructions on adding new environments.
-*  FAQ and forum on production usage.
-
-This project is partially funded by a [stability.ai](https://stability.ai) grant.  
-We are not the original authors of the EfficientZero model.
+EfficientZero Remastered is supported in part by a grant from stability.ai. Please note that we are not the original creators of the EfficientZero model, but we have extensively refined and optimized the code for production environments. This project is still under active development.
 
 ## Environments
 EfficientZero requires python3 (>=3.6) and pytorch (>=1.8.0) with the development headers. 
