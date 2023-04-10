@@ -1,5 +1,5 @@
 # EfficientZero Remastered
-Welcome to the official GitHub repository for the remastered version of EfficientZero, an advanced Reinforcement Learning model designed for real-world applications. EfficientZero Remastered is a production-ready release that builds upon the original research model, offering enhanced performance and stability for use cases such as game AI, meta learning, optimization, large language models (LLMs), generative models, and more.
+Welcome to the official GitHub repository for the remastered version of EfficientZero, an advanced Reinforcement Learning model. EfficientZero Remastered is a production-ready release that builds upon the original research model, offering enhanced performance and stability for applications such as game AI, meta learning, optimization, large language models (LLMs), generative models, and more.
 
 ## What's New in EfficientZero Remastered:
 ### Enhanced Features:
