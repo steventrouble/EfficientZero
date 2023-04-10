@@ -1,5 +1,9 @@
 import ray
+import copy
 import time
+import pickle
+import pathlib
+import traceback
 
 import numpy as np
 
@@ -10,21 +14,51 @@ class ReplayBuffer(object):
     Algo. 1 and Algo. 2 in Page-3 of (https://arxiv.org/pdf/1803.00933.pdf
     """
     def __init__(self, config=None):
+        # all vars are private
+        # immutable
         self.config = config
         self.batch_size = config.batch_size
         self.keep_ratio = 1
-
-        self.model_index = 0
-        self.model_update_interval = 10
-
-        self.buffer = []
-        self.priorities = []
-        self.game_look_up = []
-
-        self._eps_collected = 0
-        self.base_idx = 0
-        self._alpha = config.priority_prob_alpha
+        self.alpha = config.priority_prob_alpha
         self.transition_top = int(config.transition_num * 10 ** 6)
+
+        # mutable
+        self.buffer = []  # Raw episodes from gym
+        self.priorities = []  # priorities of episodes in buffer
+
+        # can be calculated from mutable
+        self.game_look_up = []  # wasteful list of steps in episodes
+        self.eps_collected = 0  # number of episodes collected
+        self.base_idx = 0  # number of cleared items since start
+        self.clear_time = 0  # last time the buffer was cleared
+
+    def save_state(self, path):
+        buffer_path = path.with_suffix('.buffer')
+        prio_path = path.with_suffix('.prios')
+
+        with open(buffer_path, 'wb') as bf, open(prio_path, 'wb') as pf:
+            pickle.dump(self.buffer, bf)
+            pickle.dump(self.priorities, pf)
+
+    def load_state(self, path, allow_missing=False):
+        buffer_path = path.with_suffix('.buffer')
+        prio_path = path.with_suffix('.prios')
+
+        if buffer_path.exists() and prio_path.exists():
+            with open(buffer_path, 'rb') as bf, open(prio_path, 'rb') as pf:
+                self.buffer = pickle.load(bf)
+                self.priorities = pickle.load(pf)
+        elif allow_missing:
+            return
+        else:
+            raise Exception("Could not find files", buffer_path, prio_path)
+
+        self.game_look_up = []
+        eps_list = range(len(self.buffer))
+        for ep in eps_list:
+            self.game_look_up += [(ep, step) for step in range(len(self.buffer[ep]))]
+        self.eps_collected = len(self.buffer)
+        self.base_idx = 0
         self.clear_time = 0
 
     def save_pools(self, pools, gap_step):
@@ -51,7 +85,7 @@ class ReplayBuffer(object):
             return
 
         if end_tag:
-            self._eps_collected += 1
+            self.eps_collected += 1
             valid_len = len(game)
         else:
             valid_len = len(game) - gap_steps
@@ -76,6 +110,12 @@ class ReplayBuffer(object):
         return game
 
     def prepare_batch_context(self, batch_size, beta):
+        try:
+            return self._prepare_batch_context(batch_size, beta)
+        except Exception as exc:
+            traceback.print_exc()
+
+    def _prepare_batch_context(self, batch_size, beta):
         """Prepare a batch context that contains:
         game_lst:               a list of game histories
         game_pos_lst:           transition index in game (relative index)
@@ -93,7 +133,7 @@ class ReplayBuffer(object):
 
         total = self.get_total_len()
 
-        probs = self.priorities ** self._alpha
+        probs = self.priorities ** self.alpha
 
         probs /= probs.sum()
         # sample data
@@ -159,7 +199,7 @@ class ReplayBuffer(object):
 
     def episodes_collected(self):
         # number of collected histories
-        return self._eps_collected
+        return self.eps_collected
 
     def get_batch_size(self):
         return self.batch_size
