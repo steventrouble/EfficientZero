@@ -75,8 +75,8 @@ class SharedStorage(object):
     def set_target_weights(self, weights):
         return self.target_model.set_weights(weights)
 
-    def incr_counter(self):
-        self.step_counter += 1
+    def incr_counter(self, amount=1):
+        self.step_counter += amount
 
     def get_counter(self):
         return self.step_counter

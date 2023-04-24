@@ -375,6 +375,7 @@ def _train(model, target_model, replay_buffer, shared_storage, batch_storage, co
     # Note: the interval of the current model and the target model is between x and 2x. (x = target_model_interval)
     # recent_weights is the param of the target model
     recent_weights = model.get_weights()
+    shared_storage.incr_counter.remote(step_count)
 
     # while loop
     while step_count < config.training_steps + config.last_steps:
