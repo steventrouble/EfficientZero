@@ -21,7 +21,8 @@ def _test(config, shared_storage):
     while True:
         counter = ray.get(shared_storage.get_counter.remote())
         if counter >= config.training_steps + config.last_steps:
-            time.sleep(30)
+            time.sleep(60)
+            print("Note: Sleeping in test method")
             break
         if counter >= config.test_interval * episodes:
             episodes += 1

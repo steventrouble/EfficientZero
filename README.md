@@ -1,5 +1,25 @@
-# EfficientZero (NeurIPS 2021)
-Open-source codebase for EfficientZero, from ["Mastering Atari Games with Limited Data"](https://arxiv.org/abs/2111.00210) at NeurIPS 2021.
+# EfficientZero Remastered
+Welcome to the official GitHub repository for the remastered version of EfficientZero, an advanced Reinforcement Learning model. EfficientZero Remastered is a production-ready release that builds upon the original research model, offering enhanced performance and stability for applications such as game AI, meta learning, optimization, large language models (LLMs), generative models, and more.
+
+## What's New in EfficientZero Remastered:
+### Enhanced Features:
+* A100 GPU Training Compatibility
+* Comprehensive Preemption Recovery
+* Replay Buffer Checkpointing System
+* Updated Dependencies for Improved Stability
+
+### Resolved Issues:
+* Streamlined CPU to GPU Memory Allocation
+* Addressed Crashes on Latest Video Cards
+* Automatic Batch Worker Restart after Failures
+* Refined Error-Handling and Messaging
+
+### Coming Soon:
+* Access to Pre-Trained Models
+* Guidelines for Integrating New Gym Environments
+* Dedicated FAQ and Forum for Production Users
+
+EfficientZero Remastered is supported in part by a grant from stability.ai. Please note that we are not the original creators of the EfficientZero model, but we have extensively refined and optimized the code for production environments. This project is still under active development.
 
 ## Environments
 EfficientZero requires python3 (>=3.6) and pytorch (>=1.8.0) with the development headers. 
